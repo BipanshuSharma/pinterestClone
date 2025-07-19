@@ -6,6 +6,17 @@
     <title>Document</title>
 </head>
 <body style="background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);">
+    <nav style="background: white; padding: 1em 2em; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 2em;">
+        <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+            <h3 style="margin: 0;">Pinterest Clone</h3>
+            <div style="display: flex; gap: 2em; align-items: center;">
+                <a href="/feed" style="text-decoration: none; color: #333; font-weight: 500;">Feed</a>
+                <a href="/profile" style="text-decoration: none; color: #333; font-weight: 500;">Profile</a>
+                <a href="/posts/create" style="background: #e60023; color: white; padding: 0.5em 1em; border-radius: 20px; text-decoration: none; font-weight: bold;">+ Create Post</a>
+                <a href="/logout" style="text-decoration: none; color: #333; font-weight: 500;">Logout</a>
+            </div>
+        </div>
+    </nav>
 <div style="max-width: 600px; margin: 40px auto; padding: 2em; border-radius: 10px; background: #ded7d79e; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
     <h1 style="text-align:center; margin-bottom: 1em;">Welcome, <%= user.username %>!</h1>
     <div style="text-align:center; margin-bottom: 2em;">
@@ -39,6 +50,8 @@
         <p>You haven't posted anything yet.</p>
     <% } %>
     <div style="text-align:center; margin-top:2em;">
+        <a href="/posts/create" style="color:#fff; background:#007bff; padding:0.5em 1.5em; border-radius:5px; text-decoration:none; margin-right:1em;">Create New Post</a>
+        <a href="/feed" style="color:#fff; background:#28a745; padding:0.5em 1.5em; border-radius:5px; text-decoration:none; margin-right:1em;">View Feed</a>
         <a href="/logout" style="color:#fff; background:#e74c3c; padding:0.5em 1.5em; border-radius:5px; text-decoration:none;">Logout</a>
     </div>
 </div>

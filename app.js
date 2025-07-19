@@ -7,6 +7,7 @@ const passport = require("passport");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const postsRouter = require("./routes/posts");
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/posts", postsRouter);
 
 const feedRouter = require('./routes/feed'); // Adjust path if needed
 app.use('/', feedRouter);

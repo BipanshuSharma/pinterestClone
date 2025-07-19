@@ -4,237 +4,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Feed - Pinterest Clone</title>
     <link rel="stylesheet" href="/stylesheets/feed.css">
+    <style>
+        .nav-container {
+            background: white;
+            padding: 1em 2em;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2em;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover {
+            color: #007bff;
+        }
+        
+        .create-post-btn {
+            background: #e60023;
+            color: white;
+            padding: 0.5em 1em;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .create-post-btn:hover {
+            background: #ad081b;
+        }
+        
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1em;
+            padding: 2em;
+        }
+        
+        .post-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .post-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .post-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .post-content {
+            padding: 1em;
+        }
+        
+        .post-text {
+            margin-bottom: 0.5em;
+            color: #333;
+            font-size: 0.9em;
+        }
+        
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .like-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .like-btn.liked {
+            color: #e60023;
+        }
+        
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.2em 0.5em;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.7em;
+        }
+        
+        .delete-btn:hover {
+            background: #c82333;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4em 2em;
+            color: #666;
+        }
+        
+        .empty-state h2 {
+            margin-bottom: 1em;
+        }
+    </style>
 </head>
 
 <body>
+    <nav class="nav-container">
+        <div class="logo">
+            <h3>Pinterest Clone</h3>
+        </div>
+        <div class="nav-links">
+            <a href="/feed">Feed</a>
+            <a href="/profile">Profile</a>
+            <a href="/posts/create" class="create-post-btn">+ Create Post</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
 
-    <body>
-        <nav>
-            <div class="logo">
-                <h5>LOGO</h5>
-
+    <div class="container">
+        <% if (posts && posts.length > 0) { %>
+            <div class="post-grid">
+                <% posts.forEach(function(post) { %>
+                    <div class="post-card" data-post-id="<%= post._id %>">
+                        <img src="<%= post.imageUrl %>" alt="Post image" class="post-image">
+                        <div class="post-content">
+                            <div class="post-text"><%= post.postText %></div>
+                            <div class="post-meta">
+                                <span>By <%= post.user ? post.user.username : 'Unknown' %></span>
+                                <div>
+                                    <button class="like-btn <%= post.likes.includes(user._id.toString()) ? 'liked' : '' %>" 
+                                            onclick="likePost('<%= post._id %>')">
+                                        ❤️ <%= post.likes.length %>
+                                    </button>
+                                    <% if (post.user && post.user._id.toString() === user._id.toString()) { %>
+                                        <button class="delete-btn" onclick="deletePost('<%= post._id %>')">Delete</button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
             </div>
-            <ul class="navLink">
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Projects</a></li>
-            </ul>
-            <div class="lines">
-                <div class="l1"></div>
-                <div class="l2"></div>
-                <div class="l3"></div>
+        <% } else { %>
+            <div class="empty-state">
+                <h2>No posts yet!</h2>
+                <p>Be the first to share something amazing.</p>
+                <a href="/posts/create" class="create-post-btn" style="display: inline-block; margin-top: 1em;">Create Your First Post</a>
             </div>
-        </nav>
+        <% } %>
+    </div>
 
-        <header>
-            <h1>Pinterest Style Image Galley</h1>
-            <h2>with Responsive Navigation Bar</h2>
-        </header>
-
-
-        <div class="container">
-
-
-
-
-
-
-
-
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/001.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/001.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/002.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/002.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/003.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/003.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/029.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/029.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/005.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/005.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/006.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/006.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/007.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/007.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/008.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/008.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://orionstardesign.com/wp-content/uploads/2023/08/010.jpg">
-                    <img src="https://orionstardesign.com/wp-content/uploads/2023/08/010.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/009.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/009.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/010.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/010.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/011.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/011.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/012.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/012.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/013.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/013.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/014.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/014.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/015.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/015.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/016.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/016.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/019.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/019.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/020.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/020.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/021.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/021.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/022.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/022.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/023.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/023.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/024.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/024.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/025.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/025.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/026.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/026.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/027.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/027.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-
-
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/030.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/030.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/031.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/031.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-
-
-            <div class="box">
-                <a href="https://gallery1.charleskdesigns.com/image/032.jpg">
-                    <img src="https://gallery1.charleskdesigns.com/image/032.jpg" alt="image"></a>
-                <div class="caption">Lorem ipsum </div>
-            </div>
-
-
-
-            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-            <script src="app.js"></script>
-    </body>
-
-
+    <script>
+        async function likePost(postId) {
+            try {
+                const response = await fetch(`/posts/like/${postId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    const likeBtn = document.querySelector(`[data-post-id="${postId}"] .like-btn`);
+                    likeBtn.textContent = `❤️ ${data.likes}`;
+                    
+                    if (data.liked) {
+                        likeBtn.classList.add('liked');
+                    } else {
+                        likeBtn.classList.remove('liked');
+                    }
+                }
+            } catch (error) {
+                console.error('Error liking post:', error);
+            }
+        }
+        
+        async function deletePost(postId) {
+            if (!confirm('Are you sure you want to delete this post?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/posts/delete/${postId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    const postCard = document.querySelector(`[data-post-id="${postId}"]`);
+                    postCard.remove();
+                } else {
+                    alert('Error deleting post');
+                }
+            } catch (error) {
+                console.error('Error deleting post:', error);
+                alert('Error deleting post');
+            }
+        }
+    </script>
 </body>
 
 </html>
