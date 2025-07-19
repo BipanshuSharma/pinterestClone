@@ -5,6 +5,11 @@ const User = require("../models/User");
 
 const router = express.Router();
 
+// login page route
+router.get('/login', (req, res) => {
+  res.render('login', { messages: req.flash() });
+});
+
 // passport setup
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
@@ -19,9 +24,11 @@ router.post("/register", (req, res) => {
   User.register(newUser, password, (err, user) => {
     if (err) {
       console.log(err);
+      req.flash('error', 'Registration failed. Please try again.');
       return res.redirect("/");
     }
     passport.authenticate("local")(req, res, () => {
+      req.flash('success', 'Registration successful! Welcome!');
       res.redirect("/profile");
     });
   });
@@ -32,7 +39,7 @@ router.post('/login',
   passport.authenticate('local', {
     successRedirect: '/profile',
     failureRedirect: '/login',
-    failureFlash: true
+    failureFlash: 'Invalid username or password'
   })
 );
 

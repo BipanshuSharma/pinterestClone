@@ -24,6 +24,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+const flash = require("connect-flash");
+app.use(flash());
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -32,9 +35,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-
-const flash = require("connect-flash");
-app.use(flash());
 
 const feedRouter = require('./routes/feed'); // Adjust path if needed
 app.use('/', feedRouter);

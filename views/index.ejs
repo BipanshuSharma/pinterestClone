@@ -11,6 +11,19 @@
         <!--pinterest logo-->
         <img src="https://i.pinimg.com/originals/d3/d1/75/d3d175e560ae133f1ed5cd4ec173751a.png" alt="pin logo" class="img1" />
         <p class="header">Make Account to see more</p>
+        
+        <% if (messages && messages.error) { %>
+            <div style="background-color: #ffebee; color: #c62828; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                <%= messages.error %>
+            </div>
+        <% } %>
+        
+        <% if (messages && messages.success) { %>
+            <div style="background-color: #e8f5e8; color: #2e7d32; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center;">
+                <%= messages.success %>
+            </div>
+        <% } %>
+        
        <form action="/users/register" method="POST">
 
           <input type="email" name="email" placeholder="Email" class="detail" /><br />

@@ -8,12 +8,11 @@ function isLoggedIn(req, res, next) {
 }
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Pinterest Clone' });
+  res.render('index', { title: 'Pinterest Clone', messages: req.flash() });
 });
 
 router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Login' });
-  
+  res.render('login', { title: 'Login', messages: req.flash() });
 });
 
 
